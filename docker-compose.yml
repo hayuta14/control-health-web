@@ -1,0 +1,28 @@
+version: "3.8"
+
+services:
+  flask-app:
+    build: .\identity_service\
+    container_name: flask-app
+    ports:
+      - "5000:5000"
+    environment:
+      - FLASK_APP=run.py
+      - FLASK_ENV=development
+    depends_on:
+      - mongodb
+    networks:
+      - mynetwork
+
+  mongodb:
+    image: mongo
+    container_name: mongodb
+    restart: always #tu dong restart neu bi dung
+    ports:
+      - "27017:27017"
+    networks:
+      - mynetwork
+
+networks:
+  mynetwork:
+    driver: bridge
