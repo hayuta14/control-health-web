@@ -9,7 +9,7 @@ def login(request):
         return None, ("Please type again", 401)
     
     print(auth)
-    response = requests.post("http://127.0.0.1:5000/auth/login",json=auth)
+    response = requests.post("http://identity_service:5000/auth/login",json=auth)
 
     if response.status_code != 200:
         print(response.text)
@@ -24,7 +24,7 @@ def validate(request):
     token = request.headers["Authorization"]
     if not token:
         return None,("Token is missing", 401)
-    response = requests.post("http://127.0.0.1:5000/auth/validate", headers={"Authorization": token})
+    response = requests.post("http://identity_service:5000/auth/validate", headers={"Authorization": token})
     content=response.json()
     print(response.json())
     if response.status_code != 200:
@@ -33,7 +33,7 @@ def validate(request):
         return token,None
     
 def logout(token):
-    response = requests.post("http://127.0.0.1:5000/auth/logout",headers={"Authorization": token})
+    response = requests.post("http://identity_service:5000/auth/logout",headers={"Authorization": token})
     print(response)
     content=response.json()
     if response.status_code != 200:

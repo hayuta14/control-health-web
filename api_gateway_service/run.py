@@ -130,4 +130,4 @@ def chatHistories(limit,page):
 
 
 if __name__ == "__main__":
-    server.run(debug=True,port=3001)
+    server.run(debug=True,host="0.0.0.0",port=3001)

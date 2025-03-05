@@ -1,14 +1,55 @@
-version: "3.8"
-
 services:
-  flask-app:
-    build: .\identity_service\
-    container_name: flask-app
+  api_gateway-service:
+    build: ./api_gateway_service/
+    container_name: api_gateway_service
+    ports:
+      - "3001:3001"
+    environment:
+      - FLASK_APP=run.py
+      - FLASK_DEBUG=1
+      - FLASK_RUN_PORT=3001
+    depends_on:
+      - mongodb
+    networks:
+      - mynetwork
+
+  identity-service:
+    build: ./identity_service/
+    container_name: identity_service
     ports:
       - "5000:5000"
     environment:
       - FLASK_APP=run.py
-      - FLASK_ENV=development
+      - FLASK_DEBUG=1
+      - FLASK_RUN_PORT=5000
+    depends_on:
+      - mongodb
+    networks:
+      - mynetwork
+
+  message_with_ai_service:
+    build: ./message_with_AL_service/
+    container_name: message_with_ai_service
+    ports:
+      - "5001:5001"
+    environment:
+      - FLASK_APP=run.py
+      - FLASK_DEBUG=1
+      - FLASK_RUN_PORT=5001
+    depends_on:
+      - mongodb
+    networks:
+      - mynetwork
+
+  profile-service:
+    build: ./proflie_service/
+    container_name: profile_service
+    ports:
+      - "5002:5002"
+    environment:
+      - FLASK_APP=run.py
+      - FLASK_DEBUG=1
+      - FLASK_RUN_PORT=5002
     depends_on:
       - mongodb
     networks:
@@ -17,7 +58,7 @@ services:
   mongodb:
     image: mongo
     container_name: mongodb
-    restart: always #tu dong restart neu bi dung
+    restart: always
     ports:
       - "27017:27017"
     networks:

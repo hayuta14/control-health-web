@@ -1,0 +1,8 @@
+#!/home/opit/Documents/Chat_with_AI/Chat_with_AI/api_gateway_service/venv/bin/python3
+# -*- coding: utf-8 -*-
+import re
+import sys
+from rsa.cli import decrypt
+if __name__ == '__main__':
+    sys.argv[0] = re.sub(r'(-script\.pyw|\.exe)?$', '', sys.argv[0])
+    sys.exit(decrypt())

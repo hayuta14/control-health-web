@@ -14,7 +14,7 @@ def create_user(data):
         print(user["_id"])
         user_id = user["_id"]
         data["user_id"] = str(user_id)
-        response=requests.post("http://127.0.0.1:5002/user-profile/1",json=data)
+        response=requests.post("http://profile_service:5002/user-profile/1",json=data)
         print(response)
         if response.status_code != 200:
             print(response.text)
@@ -57,7 +57,7 @@ def updateInformation(email,data,user_id):
         "password_hash": generate_password_hash(data["password"])
     }})
     if user.modified_count != 0:
-        response=requests.put(f"http://127.0.0.1:5002/user-profile/{user_id}", json=data)
+        response=requests.put(f"http://profile_service:5002/user-profile/{user_id}", json=data)
         if response.status_code != 200:
             return response.text, 500
         return "Alter User Success", 200
@@ -69,7 +69,7 @@ def get_user_by_email(email):
     if not user_data:
         return None
     user = User(user_data["username"], user_data["email"], user_data["password_hash"])
-    response = requests.get(f"http://127.0.0.1:5002/user-profile/{user_data['_id']}")
+    response = requests.get(f"http://profile_service:5002/user-profile/{user_data['_id']}")
     user_profile = response.json()
     user=user.to_dict()
     user["height"] = user_profile["response"]["user_height"]
